@@ -6,6 +6,8 @@
 // init
 let input = [4, 5, 9, 10, 0, 2]
 
+// result
+console.log(mergeSort(input));
 
 //functions 
 /**
@@ -14,6 +16,10 @@ let input = [4, 5, 9, 10, 0, 2]
  * @returns {Array} will return a sorted array 
  */
 function mergeSort(array) {
+    if (array.length <= 1) {
+        // one index is sorted
+        return array;
+    }
     // we need the middle index for
     let indexMid = Math.floor(array.length / 2);
     // now we have to divide arrays into 2 chunks with index
@@ -32,15 +38,15 @@ function merger(left, right) {
     let j = 0;
 
     // compare left and right side
-    while (i <= left.length && j <= right.length) {
+    while (i < left.length && j < right.length) {
         // check if left < right  
         if (left[i] < right[j]) {
             resultArray.push(left[i]);
-            i++;
+            i++; // move the left part
         }
         else {
             resultArray.push(right[j]);
-            j++;
+            j++; // move the right part
         }
     }
 
