@@ -148,8 +148,8 @@ class Huffman {
 
 
 // 1. message
-//let message = "AEEAADDDDBBBCCCCCCBB";
-let message = "AADD";
+let message = "AEEAADDDDBBBCCCCCCBB";
+//let message = "AABBCCDD";
 
 console.log("========================================")
 console.log(`orginal message: ${message}`);

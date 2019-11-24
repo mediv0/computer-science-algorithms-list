@@ -1,26 +1,17 @@
-let message = "AEEAADDDDBBBCCCCCCBB";
+let message = "AABBCCDD";
 
 let msgTable = [
-    { char: 'E', count: 2 },
-    { char: 'A', count: 3 },
-    { char: 'D', count: 4 },
-    { char: 'B', count: 5 },
-    { char: 'C', count: 6 },
-    { char: 'C', count: 6 }
-
-]
+    { char: 'A', count: 2 },
+    { char: 'B', count: 2 },
+    { char: 'C', count: 2 },
+    { char: 'D', count: 2 }]
 
 let codeTree = [
-    { value: 5, left: 2, right: 3, lc: 'E', rc: 'A' },
-    { value: 9, left: 4, right: 5, lc: 'D', rc: 'B' },
-    { value: 12, left: 6, right: 6, lc: 'C', rc: 'C' },
-    { value: 14, left: 5, right: 9, lc: undefined, rc: undefined },
-    { value: 26, left: 14, right: 12, lc: undefined, rc: undefined }
-]
+    { value: 4, left: 2, right: 2, lc: 'A', rc: 'B' },
+    { value: 4, left: 2, right: 2, lc: 'C', rc: 'D' },
+    { value: 8, left: 4, right: 4, lc: undefined, rc: undefined }]
 
 encode(codeTree, message, msgTable);
-
-
 
 
 function msgTBCleaner(msgTable) {
@@ -43,6 +34,7 @@ function encode(codeTree, message, messageTable) {
     // clean the messageTable before encoding
     msgTBCleaner(messageTable);
 
+
     let isCreated = false;
     let tmp;
     let codeValue = "";
@@ -56,7 +48,15 @@ function encode(codeTree, message, messageTable) {
         while (branch != codeTree[codeTree.length - 1].value) {
             tmp = branch;
             branch = codeTree.find(tree => tree.left === branch || tree.right === branch && (tree.lc === messageTable[i].char || tree.rc === messageTable[i].char || tree.lc == undefined || tree.rc == undefined))
-            if (branch.left === tmp) {
+            let d = -1;
+            try {
+               d = codedTable.map(e => { return e.char }).indexOf(messageTable[i - 1].char);
+            }
+            catch (e) {
+                
+            }
+            console.log(d);
+            if (branch.left === tmp && d === -1 ) {
                 // add 0
                 if (isCreated) {
                     codedTable[i].code += "0"
