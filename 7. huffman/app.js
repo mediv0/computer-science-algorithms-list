@@ -40,7 +40,6 @@ class Huffman {
         let isCreated = false;
         let tmp;
         let codeValue = "";
-        let codedTable = [];
         let codedMessage = [];
         let branch = 0;
         for (let i = 0; i < messageTable.length; i++) {
@@ -53,19 +52,19 @@ class Huffman {
                 if (branch.left === tmp) {
                     // add 0
                     if (isCreated) {
-                        codedTable[i].code += "0"
+                        this.codedTable[i].code += "0"
                     }
                     else {
-                        codedTable.push({ char: messageTable[i].char, code: codeValue + "0" })
+                        this.codedTable.push({ char: messageTable[i].char, code: codeValue + "0" })
                     }
                 }
                 else {
                     // add 1
                     if (isCreated) {
-                        codedTable[i].code += "1"
+                        this.codedTable[i].code += "1"
                     }
                     else {
-                        codedTable.push({ char: messageTable[i].char, code: codeValue + "1" })
+                        this.codedTable.push({ char: messageTable[i].char, code: codeValue + "1" })
                     }
                 }
                 isCreated = true;
@@ -74,7 +73,7 @@ class Huffman {
         }
         // encode the message based on codedTable table
         for (let i = 0; i < message.length; i++) {
-            let tmp = codedTable.find(code => code.char === message[i])
+            let tmp = this.codedTable.find(code => code.char === message[i])
             codedMessage.push(tmp.code);
         }
 
@@ -86,8 +85,15 @@ class Huffman {
 
 
     decode(encryptedMessage) {
+    let tmp;
+    let decodedMessage = [];
 
+    for (let i = 0; i < encryptedMessage.length; i++) {
+        tmp = this.codedTable.find(code_ => code_.code === encryptedMessage[i]);
+        decodedMessage.push(tmp.char);
     }
+    return decodedMessage;
+}
 
     /**
      * 
@@ -115,6 +121,8 @@ class Huffman {
             }
 
         }
+
+        return this.codeTree;
     }
 
     /**
@@ -140,11 +148,16 @@ class Huffman {
 
 
 // 1. message
-let message = "AEEAADDDDBBBCCCCCCBB";
+//let message = "AEEAADDDDBBBCCCCCCBB";
+let message = "AADD";
 
+console.log("========================================")
+console.log(`orginal message: ${message}`);
+console.log("========================================")
 
 // init Huffman class
 let huffman = new Huffman(message)
+
 
 // create message table
 let msgTable = huffman.createMessageTB();
@@ -161,13 +174,30 @@ msgTable.sort((a, b) => {
 });
 
 
+console.log("========================================")
+console.log("huffman message table: ");
+console.log(msgTable);
+console.log("========================================")
+
 
 // create code tree based on message
-huffman.createCodeTree(msgTable);
+let tree = huffman.createCodeTree(msgTable);
+
+console.log("========================================")
+console.log("huffman message tree: ");
+console.log(tree);
+console.log("========================================")
 
 // encode the message
 let encryptedMessage = huffman.encode(msgTable);
-console.log(encryptedMessage.toString());
+
+console.log("========================================")
+console.log("encrypted message : "+ encryptedMessage.toString());
+console.log("========================================")
 
 // decode the message
-huffman.decode(encryptedMessage);
+let decodedMessage = huffman.decode(encryptedMessage);
+
+console.log("========================================")
+console.log("decoded message : " + decodedMessage.toString());
+console.log("========================================")
