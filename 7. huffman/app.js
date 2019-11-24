@@ -2,6 +2,14 @@
 class Huffman {
     constructor(message) {
         this.message = message;
+        this.codeTree = [];
+        /*
+            codeTree {
+                value: ,
+                left: ,
+                right:
+            }
+        */
     }
 
     createMessageTB() {
@@ -26,6 +34,53 @@ class Huffman {
         return messageTable;
     }
 
+    encode() {
+
+    }
+
+    decode(encryptedMessage) {
+
+    }
+
+    /**
+     * 
+     * @param {Array} messageTable 
+     */
+    createCodeTree(messageTable) {
+        let tmp = 0;
+        let i = 0;
+        while (messageTable.length > 1) {
+            if (i === (messageTable.length - 1)) {
+                this.codeTree.push({
+                    value: messageTable[i].count,
+                    left: messageTable[i].count,
+                    right: messageTable[i].count,
+                    lc: messageTable[i].char,
+                    rc: messageTable[i].char
+                })
+                tmp = messageTable[i].count;
+                messageTable.splice(i);
+                messageTable.unshift({ count: tmp });
+                i = 0;
+                messageTable.reverse();
+            }
+            else {
+                tmp = messageTable[i].count + messageTable[i + 1].count;
+                this.codeTree.push({
+                    value: tmp,
+                    left: messageTable[i].count,
+                    right: messageTable[i + 1].count,
+                    lc: messageTable[i].char,
+                    rc: messageTable[i + 1].char
+                })
+                messageTable.splice(i, 2);
+                messageTable.unshift({ count: tmp });
+                i++;
+            }
+        }
+        console.log(this.codeTree);
+    }
+
 }
 
 
@@ -39,7 +94,6 @@ let huffman = new Huffman(message)
 
 // create message table
 let msgTable = huffman.createMessageTB();
-console.log(msgTable);
 
 // sort the msgTable ASC
 msgTable.sort((a, b) => {
@@ -52,5 +106,10 @@ msgTable.sort((a, b) => {
     return 0;
 });
 
-console.log("==================================");
-console.log(msgTable);
+//console.log(msgTable);
+
+// create code tree based on message
+huffman.createCodeTree(msgTable);
+
+// encode the message
+huffman.encode();
