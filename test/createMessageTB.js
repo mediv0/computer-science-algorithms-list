@@ -4,8 +4,6 @@ let result = createMessageTB(message);
 console.log(result);
 
 function createMessageTB(message) {
-
-    let tmpArray = [];
     let tmpIndex = -1;
     let messageTable = [];
     // char , count

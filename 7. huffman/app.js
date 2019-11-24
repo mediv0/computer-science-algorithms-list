@@ -3,13 +3,9 @@ class Huffman {
     constructor(message) {
         this.message = message;
         this.codeTree = [];
-        /*
-            codeTree {
-                value: ,
-                left: ,
-                right:
-            }
-        */
+        this.codedTable = [];
+
+
     }
 
     createMessageTB() {
@@ -31,10 +27,15 @@ class Huffman {
                 messageTable.push({ char: this.message[i], count: 1 });
             }
         }
+        // check if array is odd or not
+        if (messageTable.length & 1) {
+            // push last element
+            messageTable.push(messageTable[messageTable.length - 1]);
+        }
         return messageTable;
     }
 
-    encode() {
+    encode(messageTable) {
 
     }
 
@@ -50,39 +51,45 @@ class Huffman {
         let tmp = 0;
         let i = 0;
         while (messageTable.length > 1) {
-            if (i === (messageTable.length - 1)) {
-                this.codeTree.push({
-                    value: messageTable[i].count,
-                    left: messageTable[i].count,
-                    right: messageTable[i].count,
-                    lc: messageTable[i].char,
-                    rc: messageTable[i].char
-                })
-                tmp = messageTable[i].count;
-                messageTable.splice(i);
+            tmp = messageTable[i].count + messageTable[i + 1].count;
+            this.codeTree.push({
+                value: tmp,
+                left: messageTable[i].count,
+                right: messageTable[i + 1].count,
+                lc: messageTable[i].char,
+                rc: messageTable[i + 1].char
+            });
+            messageTable.splice(i, 2);
+            if (messageTable.length == 1) {
                 messageTable.unshift({ count: tmp });
-                i = 0;
-                messageTable.reverse();
             }
             else {
-                tmp = messageTable[i].count + messageTable[i + 1].count;
-                this.codeTree.push({
-                    value: tmp,
-                    left: messageTable[i].count,
-                    right: messageTable[i + 1].count,
-                    lc: messageTable[i].char,
-                    rc: messageTable[i + 1].char
-                })
-                messageTable.splice(i, 2);
-                messageTable.unshift({ count: tmp });
-                i++;
+                messageTable.push({ count: tmp });
             }
+
         }
-        console.log(this.codeTree);
     }
 
+    /**
+     * 
+     * @param {Array} msgTable 
+     */
+    msgTBCleaner(msgTable) {
+        let count = 0;
+        for (let i = 0; i < msgTable.length; i++) {
+            for (let j = 0; j < msgTable.length; j++) {
+                if (msgTable[i].char === msgTable[j].char) {
+                    count++;
+                    if (count >= 2) {
+                        // remove the j
+                        msgTable.splice(j, 1);
+                    }
+                }
+            }
+            count = 0;
+        }
+    }
 }
-
 
 
 // 1. message
@@ -113,3 +120,6 @@ huffman.createCodeTree(msgTable);
 
 // encode the message
 huffman.encode();
+
+
+// decode the message
