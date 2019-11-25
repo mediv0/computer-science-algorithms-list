@@ -37,6 +37,10 @@ class Huffman {
         // clean the messageTable before encoding
         this.msgTBCleaner(messageTable);
 
+        let leftDoneFlag = { flag: false }
+        let rightDoneFlag = { flag: false }
+        let isFirstinTree = true;
+        let j = 0;
         let isCreated = false;
         let tmp;
         let codeValue = "";
@@ -46,10 +50,13 @@ class Huffman {
             // value of first char
             branch = messageTable[i].count;
             isCreated = false;
+            j = 0;
+            isFirstinTree = true;
             while (branch != this.codeTree[this.codeTree.length - 1].value) {
                 tmp = branch;
-                branch = this.codeTree.find(tree => tree.left === branch || tree.right === branch && (tree.lc === messageTable[i].char || tree.rc === messageTable[i].char || tree.lc == undefined || tree.rc == undefined))
-                if (branch.left === tmp) {
+                branch = this.codeTree.find(tree => (tree.left === branch || tree.right === branch) && (tree.lc === messageTable[i].char || tree.rc === messageTable[i].char || tree.lc == undefined || tree.rc == undefined))
+                if (branch.left === tmp && branch.leftDone === false) {
+                    branch.leftDone = true;
                     // add 0
                     if (isCreated) {
                         this.codedTable[i].code += "0"
@@ -59,12 +66,42 @@ class Huffman {
                     }
                 }
                 else {
+                    branch.rightDone = true
                     // add 1
                     if (isCreated) {
                         this.codedTable[i].code += "1"
                     }
                     else {
                         this.codedTable.push({ char: messageTable[i].char, code: codeValue + "1" })
+                    }
+                }
+                if (isFirstinTree === true) {
+                    isFirstinTree = false;
+                    j++;
+                }
+                else {
+                    /*
+                    branch = codeTree.find(tree => (tree.left === branch || tree.right === branch) && (tree.lc === messageTable[i].char || tree.rc === messageTable[i].char || tree.lc == undefined || tree.rc == undefined))
+                    */
+                    // get child branch
+                    let childBranch = this.codeTree.find(tree => (tree.value === branch.left || tree.value === branch.right) && (tree.lc === messageTable[i].char || tree.rc === messageTable[i].char || tree.lc == undefined || tree.rc == undefined))
+                    // check if j l-r is true for j + 1
+                    if (childBranch.leftDone === true && childBranch.rightDone === true) {
+                        // set j + 1 left to true
+                        if (branch.leftDone === true) {
+                            leftDoneFlag.flag = true;
+                        }
+                        if (branch.rightDone === true) {
+                            rightDoneFlag.flag = true;
+                        }
+                    }
+                    else {
+                        if (branch.leftDone === true && leftDoneFlag.flag === false) {
+                            branch.leftDone = false;
+                        }
+                        if (branch.rightDone === true && rightDoneFlag.flag === false) {
+                            branch.rightDone = false;
+                        }
                     }
                 }
                 isCreated = true;
@@ -110,7 +147,8 @@ class Huffman {
                 left: messageTableClone[i].count,
                 right: messageTableClone[i + 1].count,
                 lc: messageTableClone[i].char,
-                rc: messageTableClone[i + 1].char
+                rc: messageTableClone[i + 1].char,
+                leftDone: false, rightDone: false
             });
             messageTableClone.splice(i, 2);
             if (messageTableClone.length == 1) {
@@ -148,8 +186,8 @@ class Huffman {
 
 
 // 1. message
-let message = "AEEAADDDDBBBCCCCCCBB";
-//let message = "AABBCCDD";
+//let message = "AEEAADDDDBBBCCCCCCBB";
+let message = "AABBDDCC"
 
 console.log("========================================")
 console.log(`orginal message: ${message}`);
