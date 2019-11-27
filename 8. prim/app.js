@@ -57,8 +57,6 @@ function prim(routesList) {
 
     // add first route to connect
     connected.push(routes[0]);
-
-    let i = 0;
     do {
         // get min path from connected routes
         minRoute = getMinimumPath(connected);
