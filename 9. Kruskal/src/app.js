@@ -40,6 +40,7 @@ class Kruskal {
         this.unconnectedList = unconnectedList;
         this.sortedPath = [];
         this.connected = [];
+        this.dupList = [];
     }
 
     sort() {
@@ -59,6 +60,7 @@ class Kruskal {
     }
 
     removeDulpicatedValues() {
+        this.dupList = [...this.sortedPath];
         let sortedList = [...this.sortedPath];
         let valueBasedList = [];
         let tmpListIndex = 0;
@@ -83,16 +85,52 @@ class Kruskal {
     }
 
     routing() {
-        for (let i = 0; i < this.sortedPath.length; i++) {
+        for (let i = 0; i < this.sortedPath.length - 1; i++) {
             this.connected.push(this.sortedPath[i]);
-            if (this.sortedPath[i]) {
-                
+            if (this.hasCycle(this.sortedPath[i])) {
+                let length = this.connected.length - 1;
+                this.connected.splice(length, 1);
             }
         }
+        return this.connected;
     }
 
-    hasCycle() {
-        
+    hasCycle(currentRoute) {
+        let tmp = [];
+        let hasCycle = false;
+        let left;
+        let right;
+        let soloCheck;
+        // find all to edges from current route
+        let routes = this.connected.filter(e => e.from === currentRoute.from);
+        if (routes.length === 1) {
+            //let r = this.dupList.filter(e => (e.from === left[0].from) && (e.to === routes[1].to));
+            soloCheck = this.connected.filter(e => e.to === routes[0].to || e.to === routes[0].from);
+            let j = 0;
+            for (let i = 0; i < soloCheck.length; i++) {
+                if (i === 0) {
+                    tmp.push(soloCheck[i]);
+                }
+                else if (tmp[j].from === soloCheck[i].from) {
+                    tmp.push(soloCheck[i]);
+                    j++;
+                }
+            }
+            routes = [...tmp];
+        }
+        if (routes.length > 1) {
+            left = this.dupList.filter(e => (e.from === routes[0].to) && (e.to === routes[0].from));
+            right = this.dupList.filter(e => (e.from === left[0].from) && (e.to === routes[1].to));
+
+            let checkCycle = this.connected.find(e => (e.from === right[0].from && e.to === right[0].to) || (e.from === right[0].to && e.to === right[0].from));
+
+            if (checkCycle) {
+                // Cycle
+                hasCycle = true;
+            }
+        }
+
+        return hasCycle;
     }
 
 }
@@ -102,4 +140,7 @@ let kruskal = new Kruskal(unconnected);
 
 kruskal.sort();
 kruskal.removeDulpicatedValues();
-kruskal.routing();
+let route = kruskal.routing();
+
+console.log("===============  All Connected routes  ===================")
+console.log(route);
