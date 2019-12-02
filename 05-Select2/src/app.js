@@ -1,5 +1,5 @@
 // import
-import SelectionSort from "./moduls/SelectionSort.js";
+import SelectionSort from "./moduls/SelectionSort.js.js";
 
 
 
