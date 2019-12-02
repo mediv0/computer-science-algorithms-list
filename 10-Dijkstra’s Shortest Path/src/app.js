@@ -31,11 +31,6 @@ class Dijkstra {
         } 
     }
 
-    /**
-     * 
-     * @param {String} from start position
-     * @param {String} to end position
-     */
     routing() {
         let calcTmp = 0;
         let currentVertex = this.vertecies[0];
