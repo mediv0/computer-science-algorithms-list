@@ -46,13 +46,13 @@ class LCS {
 
     getLcs() {
         let lcsString = [];
-        let currentValue = this.matrix[this.matrix.length - 1][this.matrix.length - 1];
+        let currentValue = this.matrix[this.matrix.length - 1][this.matrix[0].length - 1];
         let biggestSub = currentValue;
         let previousValues = [];
         let tmpValue = 0;
         let goUp = false;
 
-        let j = ( this.matrix.length - 1 );
+        let j = ( this.matrix[0].length - 1 );
         for (let i = this.matrix.length - 1; i >= 0; i--) {
             while(j > 0) {
                 for (let k = i, l = j; previousValues.length != 2; k-- , l++) {
@@ -62,7 +62,6 @@ class LCS {
                     else {
                         try {
                             tmpValue = this.matrix[k][l - 1];
-                            l--;
                         }
                         catch(e) {
                             tmpValue = 0;
