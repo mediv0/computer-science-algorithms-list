@@ -1,11 +1,17 @@
-let message1 = "abcdaf";
-let message2 = "acbcf";
+//let message1 = "abcdaf";
+//let message2 = "acbcf";
+
+let message1 = "abscfo";
+let message2 = "dfacsd";
 
 
 class LCS {
     constructor(message1, message2) {
         this.rowMessage = message1.toUpperCase().split("");
         this.colMessage = message2.toUpperCase().split("");
+
+        this.rowMessage.unshift(" ");
+        this.colMessage.unshift(" ");
 
         this.matrix = [];
     }
@@ -16,7 +22,10 @@ class LCS {
         for (let i = 0; i < this.colMessage.length; i++) {
             let tmpArr = [];
             for (let j = 0; j < this.rowMessage.length; j++) {
-                if (this.colMessage[i] === this.rowMessage[j]) {
+                if(this.colMessage[i] === " " || this.rowMessage[j] === " ") {
+                    tmpArr.push(0);
+                }
+                else if (this.colMessage[i] === this.rowMessage[j]) {
                     // change matrix value based on matrix[i - 1][j - 1]
                     matrixValue = this.nextMatrixValue(this.matrix, i, j);
                     tmpArr.push(matrixValue);
@@ -37,22 +46,23 @@ class LCS {
 
     getLcs() {
         let lcsString = [];
-        let currentValue = this.matrix[this.matrix.length - 1][this.matrix.length];
+        let currentValue = this.matrix[this.matrix.length - 1][this.matrix.length - 1];
         let biggestSub = currentValue;
         let previousValues = [];
         let tmpValue = 0;
+        let goUp = false;
 
-        let j = ( this.matrix.length - 1 ) + 1;
+        let j = ( this.matrix.length - 1 );
         for (let i = this.matrix.length - 1; i >= 0; i--) {
-            while(j >= 0) {
+            while(j > 0) {
                 for (let k = i, l = j; previousValues.length != 2; k-- , l++) {
                     if(l === 0) {
                         tmpValue = 0;   
-                        // break the loop and k--
                     }
                     else {
                         try {
                             tmpValue = this.matrix[k][l - 1];
+                            l--;
                         }
                         catch(e) {
                             tmpValue = 0;
@@ -62,22 +72,28 @@ class LCS {
                 }
 
                 if (previousValues[0] === previousValues[1]) {
-                    lcsString.push(this.colMessage[i]);
-                    try {
-                        currentValue = this.matrix[i - 1][j - 1];
+                    if (this.matrix[i - 1][j - 1] < currentValue) {
+                        lcsString.push(this.colMessage[i]);
+                        try {
+                            currentValue = this.matrix[i - 1][j - 1];
+                        }
+                        catch (e) {
+                            currentValue = 0;
+                        }
+                        j--;
+                        break;
                     }
-                    catch(e) {
-                        currentValue = 0;
+                    else {
+                        goUp = true;
                     }
-                    j--;
+                }
+                if (previousValues[0] < previousValues[1] || goUp === true) {
+                    goUp = false;
+                    currentValue = this.matrix[i - 1][j];
                     break;
                 }
                 else if (previousValues[0] > previousValues[1]) {
                     currentValue = this.matrix[i][j - 1];
-                }
-                else if(previousValues[0] < previousValues[1]) {
-                    currentValue = this.matrix[i - 1][j];
-                    break;
                 }
 
 
