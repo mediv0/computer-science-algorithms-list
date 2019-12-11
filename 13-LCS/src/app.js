@@ -1,8 +1,8 @@
-//let message1 = "abcdaf";
-//let message2 = "acbcf";
+let message1 = "abcfgrpotj";
+let message2 = "ojmasdag";
 
-let message1 = "abscfo";
-let message2 = "dfacsd";
+//let message1 = "abscfo";
+//let message2 = "dfacsd";
 
 
 class LCS {
@@ -54,7 +54,7 @@ class LCS {
 
         let j = ( this.matrix[0].length - 1 );
         for (let i = this.matrix.length - 1; i >= 0; i--) {
-            while(j > 0) {
+            while(j > 0 && i !== 0) {
                 for (let k = i, l = j; previousValues.length != 2; k-- , l++) {
                     if(l === 0) {
                         tmpValue = 0;   
@@ -71,7 +71,7 @@ class LCS {
                 }
 
                 if (previousValues[0] === previousValues[1]) {
-                    if (this.matrix[i - 1][j - 1] < currentValue) {
+                    if (this.matrix[i - 1][j - 1] < currentValue && this.colMessage[i] === this.rowMessage[j]) {
                         lcsString.push(this.colMessage[i]);
                         try {
                             currentValue = this.matrix[i - 1][j - 1];
