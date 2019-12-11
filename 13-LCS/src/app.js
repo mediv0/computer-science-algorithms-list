@@ -94,11 +94,14 @@ class LCS {
 
     display() {
         let lcsString = this.getLcs();
-        console.log("===================== Longest Common Subsequence =====================")
+        console.log("=====================================================");
+        console.log(`first message: ${this.rowMessage}`)
+        console.log(`second message: ${this.colMessage}`)
+        console.log("===================== Longest Common Subsequence =====================");
         console.log(lcsString.lcsString.reverse());
 
-        console.log("===================== BIGGEST SUB STRING =====================")
-        console.log(lcsString.biggestSub)
+        console.log("===================== BIGGEST SUB =====================");
+        console.log(lcsString.biggestSub);
     }
 
     nextMatrixValue(matrix, currentRow, currentCol) {
