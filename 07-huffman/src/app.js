@@ -25,11 +25,6 @@ class Huffman {
                 messageTable.push({ char: this.message[i], count: 1 });
             }
         }
-        // check if array is odd or not
-        if (messageTable.length & 1) {
-            // push last element
-            messageTable.push(messageTable[messageTable.length - 1]);
-        }
         return messageTable;
     }
 
@@ -115,22 +110,30 @@ class Huffman {
         }
 
         return codedMessage
-    // let message = "AEEAADDDDBBBCCCCCCBB";
+        // let message = "AEEAADDDDBBBCCCCCCBB";
 
     }
 
 
 
     decode(encryptedMessage) {
-    let tmp;
-    let decodedMessage = [];
+        let tmp;
+        let decodedMessage = [];
 
-    for (let i = 0; i < encryptedMessage.length; i++) {
-        tmp = this.codedTable.find(code_ => code_.code === encryptedMessage[i]);
-        decodedMessage.push(tmp.char);
+        for (let i = 0; i < encryptedMessage.length; i++) {
+            tmp = this.codedTable.find(code_ => code_.code === encryptedMessage[i]);
+            decodedMessage.push(tmp.char);
+        }
+        return decodedMessage;
     }
-    return decodedMessage;
-}
+
+    set _codeTree(value) {
+        this.codeTree.push(value);
+    }
+
+    get _codeTree() {
+        return this.codeTree
+    }
 
     /**
      * 
@@ -140,17 +143,35 @@ class Huffman {
         let messageTableClone = [...messageTable];
         let tmp = 0;
         let i = 0;
+        let result = 0;
         while (messageTableClone.length > 1) {
-            tmp = messageTableClone[i].count + messageTableClone[i + 1].count;
-            this.codeTree.push({
-                value: tmp,
-                left: messageTableClone[i].count,
-                right: messageTableClone[i + 1].count,
-                lc: messageTableClone[i].char,
-                rc: messageTableClone[i + 1].char,
-                leftDone: false, rightDone: false
-            });
-            messageTableClone.splice(i, 2);
+            // check if current result is >= table[0];
+            if (result >= messageTableClone[i + 1].count && (result + messageTableClone[i].count <= messageTableClone[i].count + messageTableClone[i + 1].count )) {
+                tmp = messageTableClone[i].count + result
+                this._codeTree = {
+                    value: tmp,
+                    left: result,
+                    right: messageTableClone[i].count,
+                    lc: undefined,
+                    rc: messageTableClone[i].char,
+                    leftDone: false, rightDone: false
+                };
+                messageTableClone.splice(i, 1);
+                // remove the last result from the tableClone
+                messageTableClone.splice(messageTableClone.length - 1, 1);
+            }
+            else {
+                tmp = messageTableClone[i].count + messageTableClone[i + 1].count;
+                this._codeTree = {
+                    value: tmp,
+                    left: messageTableClone[i].count,
+                    right: messageTableClone[i + 1].count,
+                    lc: messageTableClone[i].char,
+                    rc: messageTableClone[i + 1].char,
+                    leftDone: false, rightDone: false
+                };
+                messageTableClone.splice(i, 2);
+            }
             if (messageTableClone.length == 1) {
                 messageTableClone.unshift({ count: tmp });
             }
@@ -158,9 +179,11 @@ class Huffman {
                 messageTableClone.push({ count: tmp });
             }
 
+            result = tmp;
+
         }
 
-        return this.codeTree;
+        return this._codeTree;
     }
 
     /**
@@ -230,7 +253,7 @@ console.log("========================================")
 let encryptedMessage = huffman.encode(msgTable);
 
 console.log("========================================")
-console.log("encrypted message : "+ encryptedMessage.toString());
+console.log("encrypted message : " + encryptedMessage.toString());
 console.log("========================================")
 
 // decode the message
