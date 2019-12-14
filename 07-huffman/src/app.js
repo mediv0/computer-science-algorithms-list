@@ -29,8 +29,7 @@ class Huffman {
     }
 
     encode(messageTable) {
-        // clean the messageTable before encoding
-        this.msgTBCleaner(messageTable);
+        
 
         let leftDoneFlag = { flag: false }
         let rightDoneFlag = { flag: false }
@@ -184,26 +183,6 @@ class Huffman {
         }
 
         return this._codeTree;
-    }
-
-    /**
-     * 
-     * @param {Array} msgTable 
-     */
-    msgTBCleaner(msgTable) {
-        let count = 0;
-        for (let i = 0; i < msgTable.length; i++) {
-            for (let j = 0; j < msgTable.length; j++) {
-                if (msgTable[i].char === msgTable[j].char) {
-                    count++;
-                    if (count >= 2) {
-                        // remove the j
-                        msgTable.splice(j, 1);
-                    }
-                }
-            }
-            count = 0;
-        }
     }
 }
 
