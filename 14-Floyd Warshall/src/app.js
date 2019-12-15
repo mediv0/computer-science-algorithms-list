@@ -52,17 +52,11 @@ class FW {
                     }
                     else {
                         // calculate new paths
-                        let indirectPathsResult = 0;
-                        let indirectPaths = this.getIndirectPaths(this.vertecies[i], this.vertecies[j]);
-                        if(indirectPaths != undefined) {
-                            for (let v = 0; v < indirectPaths.length; v++) {
-                                indirectPathsResult += indirectPaths[v][2];
-                            }
-                        }
-                        else {
-                            indirectPathsResult = Infinity;
-                        }
-                        tmpTable_1dArray.push(Math.min(perviousTable[i][j], indirectPathsResult));
+
+                        // example
+                        // find BA -> arr[from][kIndex]
+                        // find AC -> arr[kIndex][to]
+                        tmpTable_1dArray.push(Math.min(perviousTable[i][j], perviousTable[i][k] + perviousTable[k][j]));
                     }
                 }
                 tmpTable_2dArray.push(tmpTable_1dArray);
@@ -91,35 +85,6 @@ class FW {
             }
         }
         return Infinity;
-    }
-
-    getAllPaths(from) {
-        let paths = [];
-        for (let i = 0; i < this.paths.length; i++) {
-            if (this.paths[i][0] === from) {
-                paths.push(this.paths[i]);
-            }
-        }
-        return paths;
-    }
-
-    getIndirectPaths(from, to) {
-        let indirectPaths = this.getAllPaths(from);
-        let innerPathList
-        let pathList;
-        let j = 0;
-        for(let i = 0 ; i < indirectPaths.length; i++) {
-            innerPathList = this.getAllPaths(indirectPaths[i][1]);
-            for (j ;j < innerPathList.length; j++) {
-                if (innerPathList[j][1] == to) {
-                    // add current paths
-                    pathList = [innerPathList[j], indirectPaths[i]];
-                    j++;
-                    break;
-                }
-            }
-        }
-        return pathList;
     }
 
     display(paths) {
