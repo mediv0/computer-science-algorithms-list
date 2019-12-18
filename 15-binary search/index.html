@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="styles/css/main.css" />
+    <title>Binary search</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="wrapper__menu">
+            <div class="wrapper__menu__detail">
+                <div class="menu__detail__item">
+                    <div class="menu__detail__item__image menu__detail__item__image--red">
+                        <img src="images/key.svg" />
+                    </div>
+                    <div class="menu__detail__item__title">
+                        <p class="menu__detail__item__title__description">KEY</p>
+                        <input type="number" placeholder="ENTER THE KEY" class="menu__detail__item__title__number" id="SEARCHKEY">
+                    </div>
+                </div>
+                <div class="menu__detail__item">
+                    <div class="menu__detail__item__image menu__detail__item__image--yellow">
+                        <img src="images/step.svg" />
+                    </div>
+                    <div class="menu__detail__item__title">
+                        <p class="menu__detail__item__title__description">STEP</p>
+                        <p class="menu__detail__item__title__number" id="stepNumber">0</p>
+                    </div>
+                </div>
+                <div class="menu__detail__item">
+                    <div class="menu__detail__item__image menu__detail__item__image--blue">
+                        <img src="images/time.svg" />
+                    </div>
+                    <div class="menu__detail__item__title">
+                        <p class="menu__detail__item__title__description">INDEX</p>
+                        <p class="menu__detail__item__title__number" id="indexNumber">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper__menu__btns">
+                <div class="wrapper__menu__btns__status wrapper__menu__btns__status--green display_none">WE FOUND YOUR KEY</div>
+                <hr class="line"/>
+                <div class="wrapper__menu__btns__buttons">
+                    <button class="button button--green" id="startBtn">START</button>
+                    <button class="button button--gray" id="resetBtn">RESET</button>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper__chart">
+            <div class="wrapper__chart__add">
+                <input type="number" placeholder="ENTER NUMBER + ENTER" id="chartNumber"/>
+                <button class="button button--green wrapper__chart__add__btn" id="submitNumber" style="width: 79px; height: 61px;">SUBMIT</button>
+            </div>
+            <div class="wrapper__chart__graph">
+                <div class="wrapper__chart__graph__labels">
+                    <div class="wrapper__chart__graph__labels__label wrapper__chart__graph__labels__label--low display_none">LOW</div>
+                    <div class="wrapper__chart__graph__labels__label wrapper__chart__graph__labels__label--middle display_none">MID</div>
+                    <div class="wrapper__chart__graph__labels__label wrapper__chart__graph__labels__label--hight display_none">HIGH</div>
+                </div>
+                <div class="wrapper__chart__graph__items">
+                </div>
+                <img class="wrapper__chart__graph__pointer display_none" src="images/location-sign.svg" style="transform: rotate(-180deg); width: 26.58px; height: 38.3px;">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/app/app.js"></script>
+</body>
+</html>
