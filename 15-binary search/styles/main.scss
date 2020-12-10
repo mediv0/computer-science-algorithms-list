@@ -1,0 +1,340 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:700&display=swap');
+
+$bg-color-light: #FBFBFB;
+$bg-color-gray: #F1F3F6;
+
+$color-white: #ffffff;
+$color-gray: #B3B3B3;
+$color-dark-gray: #848484;
+
+$color-green: #66CE7D;
+$color-red: #FF727A;
+$color-yellow: #F8AC3C;
+$color-blue: #7292FF;
+
+
+$chart-color-dark: #61646D;
+$chart-color-gray: #808185;
+$chart-color-disabled: #DEE2E8;
+
+$container-width: 1200px;
+
+
+// reset
+html {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+.container {
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+}
+
+
+// main 
+
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    &__menu {
+        padding: 20px 30px;
+        flex: 1;
+        background: $bg-color-light;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &__detail {}
+
+        &__btns {}
+    }
+
+    &__chart {
+        flex: 3;
+        background: $bg-color-gray;
+    }
+}
+
+.menu__detail__item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+
+    &:not(:last-child) {
+        margin-bottom: 15px;
+    }
+
+    &__image {
+        width: 59px;
+        height: 59px;
+        border-radius: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--red {
+            background: $color-red;
+        }
+
+        &--yellow {
+            background: $color-yellow;
+        }
+
+        &--blue {
+            background: $color-blue;
+        }
+
+        &>img {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__title {
+        margin-left: 15px;
+
+        &__description {
+            color: $color-gray;
+
+        }
+
+        &__number {
+            color: black;
+        }
+
+        &>input[type="number"] {
+            font-size: inherit;
+            font-family: inherit;
+            width: 80px;
+            border: 0;
+            background: transparent;
+        }
+
+        &>input[type="number"]::-webkit-input-placeholder {
+            font-size: 10px;
+        }
+    }
+}
+
+
+.wrapper__menu__btns {
+
+    &__status {
+
+        &--red {
+            color: $color-red;
+        }
+
+        &--green {
+            color: $color-green;
+        }
+    }
+
+    &>hr {
+        margin: 20px 0;
+        border: 1px solid #E8E8E8;
+    }
+
+    &__buttons {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.button {
+    outline: 0;
+    border: 0;
+    padding: 22px 0;
+    color: $color-white;
+    border-radius: 7px;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    cursor: pointer;
+
+    &--green {
+        flex: 2;
+        background: $color-green;
+        margin-right: 10px;
+    }
+
+    &--gray {
+        flex: 1;
+        background: &$color-gray;
+        color: $color-dark-gray;
+    }
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $color-gray;
+    opacity: 1;
+    /* Firefox */
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $color-gray;
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $color-gray;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.wrapper__chart {
+    padding: 44px 98px;
+    position: relative;
+
+    &__add {
+        position: relative;
+
+        &>input[type="number"] {
+            font-size: inherit !important;
+            font-family: inherit !important;
+            border: 0;
+            width: 100%;
+            height: 90px;
+            border-radius: 7px;
+            box-shadow: 0 3px 99px rgba($color: #000000, $alpha: 0.04);
+            padding: 0 130px 0 38px;
+        }
+
+        &__btn {
+            position: absolute;
+            top: 14px;
+            right: 15px;
+        }
+    }
+
+    &__graph {
+        position: absolute;
+        width: calc(100% - 196px);
+        bottom: 80px;
+
+        &__labels {
+            width: 100%;
+            font-size: 10px;
+            margin-bottom: 20px;
+            display: flex;
+
+            &__label {
+                position: relative;
+                width: 31px;
+                height: 29px;
+                border-radius: 7px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &--low {
+                    background: $color-blue;
+                }
+
+                &--middle {
+                    background: $color-yellow;
+                }
+
+                &--hight {
+                    background: $color-red;
+                }
+            }
+        }
+
+        &__pointer {
+            position: relative;
+        }
+
+        &__items {
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &__item {
+                display: flex;
+                flex-direction: column;
+
+                &__line {
+                    width: 30px;
+                    height: 230px;
+                    background: $chart-color-dark;
+
+                }
+
+                &>#chartItemNumber {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}
+
+.chart_lines:nth-child(odd) {
+    background: red;
+}
+
+
+
+
+// helper
+
+.display_none {
+    opacity: 0;
+}
+
+.inactive {
+    opacity: 0.2;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+.success_label {
+    background: $color-green !important;
+}
+
+.error_label_text {
+    color: $color-red !important;
+}
