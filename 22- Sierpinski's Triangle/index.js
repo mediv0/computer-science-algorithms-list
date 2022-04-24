@@ -46,20 +46,22 @@ let currentCoords = Object.assign({}, initPoint);
 let pointCounts = 1;
 
 const render = () => {
-    if (pointCounts <= 20_000) {
+    if (pointCounts <= 50_000) {
         for (let i = 0; i < 2; i++) {
             const number = Math.floor(Math.random() * 3);
 
             if (number === 0) {
                 currentCoords = getMidPoint(p1, currentCoords);
+                drawCircle(currentCoords, "red");
             } else if (number === 1) {
                 currentCoords = getMidPoint(p2, currentCoords);
+                drawCircle(currentCoords, "yellow");
             } else {
                 currentCoords = getMidPoint(p3, currentCoords);
+                drawCircle(currentCoords, "blue");
                 
             }
             pointCounts++;
-            drawCircle(currentCoords);
             requestAnimationFrame(render);
         }
     }
